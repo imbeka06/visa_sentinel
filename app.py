@@ -2,10 +2,10 @@ import streamlit as st
 import random
 import pandas as pd
 
-# --- 1. CONFIGURATION & STYLING ---
+# CONFIGURATION & MY STYLING
 st.set_page_config(page_title="Visa Sentinel", page_icon="🛡️", layout="wide")
 
-# Custom CSS to match the "FinTech/Hacker" Dark Theme
+# Putting Dark Theme looks good with me
 st.markdown("""
 <style>
     /* Force dark theme adjustments */
@@ -30,7 +30,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- 2. HELPER FUNCTIONS (The Brains) ---
+# Helper functions which i consider the brain of this app.
 
 def luhn_check(card_num):
     """Returns True if valid, False if invalid, and the sum."""
@@ -53,12 +53,12 @@ def luhn_check(card_num):
 def generate_fake_visa():
     """Generates a 16-digit number that starts with 4 and passes Luhn."""
     prefix = "4"
-    # Generate 14 random digits
+    # To generage 14 random digits
     middle = "".join([str(random.randint(0, 9)) for _ in range(14)])
     temp_card = prefix + middle
     
-    # Calculate required checksum
-    # (Simplified reverse engineering)
+    # Calculating required checksum and finding a digit that makes it valid 
+    
     for i in range(10):
         full_card = temp_card + str(i)
         is_valid, _, _ = luhn_check(full_card)
@@ -66,7 +66,7 @@ def generate_fake_visa():
             return full_card
     return None
 
-# --- 3. THE APP LAYOUT ---
+# app layout starts here
 
 # Top Navigation Bar
 st.sidebar.title("🛡️ Visa Sentinel")
@@ -79,9 +79,9 @@ mode = st.sidebar.radio("Select Module:",
 st.sidebar.markdown("---")
 st.sidebar.info("Designed for: **Fraud Detection Assignment**")
 
-# =========================================================
+
 # MODULE 1: THE VALIDATOR (Matches Top-Left Image)
-# =========================================================
+
 if mode == "1. Algorithm Validator":
     st.title("🛡️ Visa Sentinel Validator")
     st.write("Analyze card structure and mathematical integrity.")
@@ -130,9 +130,9 @@ if mode == "1. Algorithm Validator":
                 st.dataframe(df, hide_index=True)
                 st.caption("Each digit is processed (doubled/subtracted) and summed to check divisibility by 10.")
 
-# =========================================================
+
 # MODULE 2: LIMITATIONS / HACKER MODE (Matches Top-Right Image)
-# =========================================================
+
 elif mode == "2. Limitation Demo (Hacker Mode)":
     st.title("⚠️ Limitation Demonstration")
     
@@ -165,9 +165,9 @@ elif mode == "2. Limitation Demo (Hacker Mode)":
         
         st.info("Explanation: This number satisfies the math formula (Sum % 10 == 0), proving that algorithmic validity does not equal financial existence.")
 
-# =========================================================
+
 # MODULE 3: SECURITY SUITE (Matches Bottom Image)
-# =========================================================
+
 elif mode == "3. Advanced Security Suite":
     st.title("🛡️ Advanced Security Layer")
     st.write("Proposed solution to fix the limitations shown in Part 2.")
